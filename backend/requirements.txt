@@ -24,7 +24,7 @@ email-validator>=2.1.0
 # Note: ecdsa has known timing attack vulnerabilities and is not recommended
 # for high-security cryptographic use cases. For production security-critical
 # applications, consider using pyca/cryptography instead.
-ecdsa>=0.19.0
+ecdsa==0.19.1
 
 # Testing
 pytest>=7.4.0
