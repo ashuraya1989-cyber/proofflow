@@ -21,10 +21,9 @@ python-dotenv>=1.0.0
 email-validator>=2.1.0
 
 # Cryptography
-# Note: ecdsa has known timing attack vulnerabilities and is not recommended
-# for high-security cryptographic use cases. For production security-critical
-# applications, consider using pyca/cryptography instead.
-ecdsa==0.19.1
+# Using cryptography library instead of ecdsa due to known timing attack
+# vulnerabilities (Minerva) in python-ecdsa with no patched version available.
+cryptography>=42.0.4
 
 # Testing
 pytest>=7.4.0
