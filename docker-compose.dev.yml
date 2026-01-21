@@ -1,0 +1,56 @@
+version: '3.8'
+
+# Development configuration
+# Run with: docker-compose -f docker-compose.dev.yml up
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_dev_data:/data/db
+    networks:
+      - gallery-dev-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend (FastAPI) - with hot reload
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017
+      - MONGODB_DB_NAME=gallery_dev
+      - SECRET_KEY=dev-secret-key-not-for-production
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=admin
+      - FRONTEND_URL=http://localhost:5173
+      - BASE_URL=http://localhost:8000
+      - DEBUG=true
+    volumes:
+      - ./backend/app:/app/app
+      - dev_uploads:/app/uploads
+    networks:
+      - gallery-dev-network
+
+volumes:
+  mongodb_dev_data:
+    driver: local
+  dev_uploads:
+    driver: local
+
+networks:
+  gallery-dev-network:
+    driver: bridge

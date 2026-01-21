@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+@layer base {
+  * {
+    @apply border-light-border-primary;
+  }
+  
+  .dark * {
+    @apply border-dark-border-primary;
+  }
+  
+  html {
+    @apply antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+  
+  body {
+    @apply bg-light-bg-primary text-light-text-primary font-sans;
+    @apply transition-colors duration-200;
+  }
+  
+  .dark body {
+    @apply bg-dark-bg-primary text-dark-text-primary;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-light-border-secondary rounded-full;
+  }
+  
+  .dark ::-webkit-scrollbar-thumb {
+    @apply bg-dark-border-secondary;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-light-text-tertiary;
+  }
+  
+  .dark ::-webkit-scrollbar-thumb:hover {
+    @apply bg-dark-text-tertiary;
+  }
+  
+  /* Focus styles */
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent-primary ring-offset-2;
+  }
+  
+  .dark :focus-visible {
+    @apply ring-offset-dark-bg-primary;
+  }
+  
+  /* Selection */
+  ::selection {
+    @apply bg-accent-primary/20 text-light-text-primary;
+  }
+  
+  .dark ::selection {
+    @apply bg-accent-primary/30 text-dark-text-primary;
+  }
+}
+
+/* Component layer */
+@layer components {
+  /* Text utilities */
+  .text-primary {
+    @apply text-light-text-primary;
+  }
+  
+  .dark .text-primary {
+    @apply text-dark-text-primary;
+  }
+  
+  .text-secondary {
+    @apply text-light-text-secondary;
+  }
+  
+  .dark .text-secondary {
+    @apply text-dark-text-secondary;
+  }
+  
+  .text-tertiary {
+    @apply text-light-text-tertiary;
+  }
+  
+  .dark .text-tertiary {
+    @apply text-dark-text-tertiary;
+  }
+  
+  /* Background utilities */
+  .bg-primary {
+    @apply bg-light-bg-primary;
+  }
+  
+  .dark .bg-primary {
+    @apply bg-dark-bg-primary;
+  }
+  
+  .bg-secondary {
+    @apply bg-light-bg-secondary;
+  }
+  
+  .dark .bg-secondary {
+    @apply bg-dark-bg-secondary;
+  }
+  
+  .bg-tertiary {
+    @apply bg-light-bg-tertiary;
+  }
+  
+  .dark .bg-tertiary {
+    @apply bg-dark-bg-tertiary;
+  }
+  
+  .bg-elevated {
+    @apply bg-light-bg-elevated;
+  }
+  
+  .dark .bg-elevated {
+    @apply bg-dark-bg-elevated;
+  }
+  
+  /* Border utilities */
+  .border-primary {
+    @apply border-light-border-primary;
+  }
+  
+  .dark .border-primary {
+    @apply border-dark-border-primary;
+  }
+  
+  .border-secondary {
+    @apply border-light-border-secondary;
+  }
+  
+  .dark .border-secondary {
+    @apply border-dark-border-secondary;
+  }
+}
+
+/* Utility layer */
+@layer utilities {
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Safe area insets for mobile */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

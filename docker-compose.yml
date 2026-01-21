@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  # Frontend (React + Nginx)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    networks:
+      - gallery-network
+
+  # Backend (FastAPI)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017
+      - MONGODB_DB_NAME=gallery
+      - SECRET_KEY=${SECRET_KEY:-change-this-in-production-use-a-real-secret-key}
+      - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost}
+      - BASE_URL=${BASE_URL:-http://localhost}
+      - DEBUG=${DEBUG:-false}
+    volumes:
+      - uploads:/app/uploads
+    restart: unless-stopped
+    networks:
+      - gallery-network
+
+  # MongoDB Database
+  mongodb:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+    networks:
+      - gallery-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mongodb_data:
+    driver: local
+  uploads:
+    driver: local
+
+networks:
+  gallery-network:
+    driver: bridge
