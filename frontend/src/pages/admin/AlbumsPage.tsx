@@ -275,7 +275,7 @@ export function AlbumsPage() {
               }}
             >
               <img
-                src={adminMedia(activeImage.image_url)}
+                src={adminMedia(activeImage.preview_url || activeImage.image_url)}
                 alt={activeImage.filename}
                 style={{
                   display: "block",

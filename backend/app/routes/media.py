@@ -68,6 +68,14 @@ async def get_thumb(image_id: str, request: Request, settings: Settings = Depend
     return FileResponse(path, media_type="image/jpeg", headers={"Cache-Control": "public, max-age=31536000, immutable"})
 
 
+@router.get("/media/preview/{image_id}")
+async def get_preview(image_id: str, request: Request, settings: Settings = Depends(get_settings)) -> FileResponse:
+    img = await _require_admin_or_share_access(image_id, request, settings)
+    # Fallback to thumb if preview doesn't exist (e.g. old images)
+    path = img.get("preview_path") or img["thumb_path"]
+    return FileResponse(path, media_type="image/jpeg", headers={"Cache-Control": "public, max-age=31536000, immutable"})
+
+
 @router.get("/media/original/{image_id}")
 async def get_original(image_id: str, request: Request, settings: Settings = Depends(get_settings)) -> FileResponse:
     img = await _require_admin_or_share_access(image_id, request, settings)

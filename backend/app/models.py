@@ -37,6 +37,7 @@ class ImageOut(BaseModel):
     height: int
     created_at: datetime
     thumb_url: str
+    preview_url: str
     image_url: str
 
 

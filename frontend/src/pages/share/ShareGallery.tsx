@@ -191,7 +191,7 @@ export function ShareGallery() {
               }}
             >
               <img
-                src={shareMedia(activeImage.image_url, shareId)}
+                src={shareMedia(activeImage.preview_url || activeImage.image_url, shareId)}
                 alt={activeImage.filename}
                 style={{
                   display: "block",

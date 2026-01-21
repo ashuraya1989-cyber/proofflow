@@ -47,6 +47,7 @@ def _image_doc_to_out(doc: dict[str, Any]) -> ImageOut:
         height=doc["height"],
         created_at=doc["created_at"],
         thumb_url=f"/media/thumb/{image_id}",
+        preview_url=f"/media/preview/{image_id}",
         image_url=f"/media/original/{image_id}",
     )
 
@@ -138,6 +139,7 @@ async def bulk_upload(
             "original_ext": stored.original_ext,
             "original_path": stored.original_path,
             "thumb_path": stored.thumb_path,
+            "preview_path": stored.preview_path,
             "width": stored.width,
             "height": stored.height,
             "created_at": stored.created_at,
