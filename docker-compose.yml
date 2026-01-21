@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:6.0
+    restart: always
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+
+  backend:
+    build: ./backend
+    restart: always
+    volumes:
+      - ./backend:/app
+      - uploads_data:/app/uploads
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017
+      - DB_NAME=photogallery
+      - JWT_SECRET_KEY=supersecretkey_change_me_in_prod
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8080
+    depends_on:
+      - mongodb
+
+  frontend:
+    build: ./frontend
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongodb_data:
+  uploads_data:
